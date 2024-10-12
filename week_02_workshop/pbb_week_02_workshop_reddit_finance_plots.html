@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Workshop: Reddit Finance Data Plots</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/clipboard/clipboard.min.js"></script>
+<script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/quarto.js"></script>
+<script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/popper.min.js"></script>
+<script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/anchor.min.js"></script>
+<link href="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="pbb_week_02_workshop_reddit_finance_plots_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="pbb_week_02_workshop_reddit_finance_plots_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="pbb_week_02_workshop_reddit_finance_plots_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="pbb_week_02_workshop_reddit_finance_plots_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Workshop: Reddit Finance Data Plots</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="f7ac6684" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="plots-to-be-reproduced" class="level1">
+<h1>Plots to be reproduced:</h1>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">1.</h2>
+<div id="0e4f99bc" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>                            <div id="8b71e57e-cbc4-47c6-897f-7d7c7264bcbf" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("8b71e57e-cbc4-47c6-897f-7d7c7264bcbf")) {                    Plotly.newPlot(                        "8b71e57e-cbc4-47c6-897f-7d7c7264bcbf",                        [{"alignmentgroup":"True","bingroup":"y","hovertemplate":"count=%{x}\u003cbr\u003eIndustry=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#3da8b2","pattern":{"shape":""}},"name":"","offsetgroup":"","orientation":"h","showlegend":false,"texttemplate":"%{value}","xaxis":"x","y":["Financial Services","Utilities","Public Administration (Civilian Government)","Education","Information Technology","Information Technology","Information Technology","Information Technology","Agriculture, Forestry, Fishing","Public Administration (Civilian Government)","Professional & Business Services","Transportation","Utilities","Financial Services","Healthcare","Professional & Business Services","Natural Resources","Other Services","Professional & Business Services","Professional & Business Services","Information Technology","Construction","Financial Services","Information Technology","Information Technology","Transportation","Professional & Business Services","Information Technology","Manufacturing","Financial Services","Education","Public Administration (Civilian Government)","Construction","Manufacturing","Information Technology","Healthcare","Financial Services","Manufacturing","Financial Services","Information Technology","Information Technology","Transportation","Information Technology","Financial Services","Professional & Business Services","Agriculture, Forestry, Fishing","Construction","Information Technology","Information Technology","Construction","Information Technology","Financial Services","Information Technology","Professional & Business Services","Healthcare","Professional & Business Services","Professional & Business Services","Natural Resources","Professional & Business Services","Construction","Construction","Financial Services","Real Estate","Financial Services","Agriculture, Forestry, Fishing","Professional & Business Services","Utilities","Manufacturing","Trade, transportation, utilities","Other Services","Professional & Business Services","Education","Construction","Information Technology","Other Services","Financial Services","Financial Services","Trade, transportation, utilities","Financial Services","Information Technology","Arts, Entertainment, Recreation","Financial Services","Healthcare","Construction","Professional & Business Services","Information Technology","Information Technology","Military","Public Administration (Civilian Government)","Professional & Business Services","Information Technology","Financial Services","Professional & Business Services","Healthcare","Natural Resources","Construction","Public Administration (Civilian Government)","Financial Services","Information Technology","Natural Resources","Information Technology","Missing","Information Technology","Information Technology","Construction","Information Technology","Construction","Information Technology","Information Technology","Utilities","Financial Services","Information Technology","Professional & Business Services","Information Technology","Healthcare","Public Administration (Civilian Government)","Information Technology","Financial Services","Information Technology","Information Technology","Professional & Business Services","Professional & Business Services","Information Technology","Information Technology","Professional & Business Services","Trade, transportation, utilities","Natural Resources","Information Technology","Media","Information Technology","Information Technology","Information Technology","Public Administration (Civilian Government)","Education","Information Technology","Information Technology","Information Technology","Manufacturing","Financial Services","Information Technology","Education","Other Services","Manufacturing","Professional & Business Services","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Manufacturing","Financial Services","Information Technology","Information Technology","Manufacturing","Healthcare","Construction","Financial Services","Information Technology","Information Technology","Healthcare","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Military","Information Technology","Financial Services","Information Technology","Military","Natural Resources","Construction","Information Technology","Financial Services","Healthcare","Natural Resources","Manufacturing","Manufacturing","Professional & Business Services","Information Technology","Education","Information Technology","Missing","Information Technology","Public Administration (Civilian Government)","Information Technology","Healthcare","Information Technology","Manufacturing","Media","Utilities","Information Technology","Construction","Healthcare","Education","Information Technology","Professional & Business Services","Other Services","Leisure & Hospitality","Information Technology","Information Technology","Information Technology","Information Technology","Manufacturing","Financial Services","Education","Other Services","Public Administration (Civilian Government)","Public Administration (Civilian Government)","Financial Services","Information Technology","Construction","Military","Information Technology","Information Technology","Information Technology","Construction","Public Administration (Civilian Government)","Information Technology","Manufacturing","Information Technology","Trade, transportation, utilities","Information Technology","Financial Services","Manufacturing","Missing","Financial Services","Information Technology","Financial Services","Media","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Education","Information Technology","Utilities","Professional & Business Services","Information Technology","Healthcare","Natural Resources","Professional & Business Services","Information Technology","Financial Services","Financial Services","Information Technology","Financial Services","Arts, Entertainment, Recreation","Professional & Business Services","Financial Services","Financial Services","Information Technology","Information Technology","Financial Services","Information Technology","Financial Services","Financial Services","Information Technology","Manufacturing","Media","Arts, Entertainment, Recreation","Information Technology","Information Technology","Military","Manufacturing","Financial Services","Information Technology","Real Estate","Information Technology","Information Technology","Education","Professional & Business Services","Financial Services","Manufacturing","Information Technology","Public Administration (Civilian Government)","Manufacturing","Agriculture, Forestry, Fishing","Construction","Leisure & Hospitality","Transportation","Information Technology","Financial Services","Information Technology","Construction","Information Technology","Public Administration (Civilian Government)","Education","Information Technology","Financial Services","Information Technology","Agriculture, Forestry, Fishing","Information Technology","Healthcare","Financial Services","Professional & Business Services","Financial Services","Financial Services","Manufacturing","Professional & Business Services","Healthcare","Information Technology","Information Technology","Manufacturing","Education","Information Technology","Construction","Healthcare","Information Technology","Healthcare","Information Technology","Military","Information Technology","Other Services","Information Technology","Manufacturing","Professional & Business Services","Information Technology","Arts, Entertainment, Recreation","Information Technology","Information Technology","Information Technology","Transportation","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Healthcare","Education","Manufacturing","Financial Services","Manufacturing","Information Technology","Information Technology","Information Technology","Manufacturing","Financial Services","Information Technology","Financial Services","Education","Information Technology","Healthcare","Information Technology","Information Technology","Professional & Business Services","Manufacturing","Financial Services","Education","Information Technology","Healthcare","Professional & Business Services","Manufacturing","Education","Transportation","Information Technology","Education","Manufacturing","Healthcare","Healthcare","Information Technology","Financial Services","Professional & Business Services","Healthcare","Financial Services","Manufacturing","Information Technology","Public Administration (Civilian Government)","Transportation","Financial Services","Professional & Business Services","Financial Services","Professional & Business Services","Healthcare","Education","Manufacturing","Information Technology","Financial Services","Missing","Information Technology","Healthcare","Information Technology","Military","Information Technology","Military","Healthcare","Information Technology","Information Technology","Information Technology","Manufacturing","Manufacturing","Information Technology","Financial Services","Healthcare","Information Technology","Manufacturing","Information Technology","Information Technology","Healthcare","Information Technology","Healthcare","Information Technology","Healthcare","Healthcare","Education","Information Technology","Information Technology","Information Technology","Other Services","Education","Healthcare","Manufacturing","Information Technology","Professional & Business Services","Information Technology","Real Estate","Information Technology","Public Administration (Civilian Government)","Other Services","Financial Services","Financial Services","Utilities","Construction","Natural Resources","Information Technology","Trade, transportation, utilities","Manufacturing","Information Technology","Information Technology","Manufacturing","Financial Services","Information Technology","Other Services","Public Administration (Civilian Government)","Information Technology","Healthcare","Healthcare","Natural Resources","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Public Administration (Civilian Government)","Professional & Business Services","Financial Services","Construction","Manufacturing","Natural Resources","Other Services","Professional & Business Services","Information Technology","Healthcare","Financial Services","Financial Services","Manufacturing","Education","Manufacturing","Information Technology","Healthcare","Information Technology","Manufacturing","Information Technology","Financial Services","Healthcare","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Public Administration (Civilian Government)","Healthcare","Military","Education","Financial Services","Information Technology","Trade, transportation, utilities","Manufacturing","Information Technology","Healthcare","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Manufacturing","Information Technology","Professional & Business Services","Professional & Business Services","Professional & Business Services","Information Technology","Information Technology","Information Technology","Financial Services","Financial Services","Information Technology","Information Technology","Natural Resources","Information Technology","Other Services","Financial Services","Financial Services","Information Technology","Professional & Business Services","Financial Services","Information Technology","Healthcare","Other Services","Other Services","Information Technology","Healthcare","Information Technology","Military","Transportation","Information Technology","Information Technology","Professional & Business Services","Healthcare","Information Technology","Manufacturing","Information Technology","Financial Services","Information Technology","Transportation","Information Technology","Manufacturing","Information Technology","Other Services","Manufacturing","Manufacturing","Manufacturing","Professional & Business Services","Professional & Business Services","Information Technology","Information Technology","Construction","Manufacturing","Healthcare","Information Technology","Professional & Business Services","Information Technology","Information Technology","Utilities","Professional & Business Services","Information Technology","Information Technology","Manufacturing","Financial Services","Financial Services","Professional & Business Services","Other Services","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Healthcare","Media","Information Technology","Manufacturing","Information Technology","Healthcare","Information Technology","Financial Services","Other Services","Financial Services","Transportation","Information Technology","Financial Services","Healthcare","Information Technology","Information Technology","Financial Services","Public Administration (Civilian Government)","Professional & Business Services","Professional & Business Services","Information Technology","Public Administration (Civilian Government)","Information Technology","Information Technology","Natural Resources","Leisure & Hospitality","Healthcare","Utilities","Information Technology","Information Technology","Manufacturing","Agriculture, Forestry, Fishing","Education","Information Technology","Information Technology","Professional & Business Services","Manufacturing","Information Technology","Manufacturing","Professional & Business Services","Manufacturing","Information Technology","Professional & Business Services","Financial Services","Professional & Business Services","Professional & Business Services","Healthcare","Information Technology","Manufacturing","Financial Services","Manufacturing","Information Technology","Professional & Business Services","Information Technology","Manufacturing","Information Technology","Public Administration (Civilian Government)","Information Technology","Professional & Business Services","Real Estate","Arts, Entertainment, Recreation","Professional & Business Services","Information Technology","Financial Services","Transportation","Information Technology","Utilities","Professional & Business Services","Education","Professional & Business Services","Financial Services","Information Technology","Information Technology","Real Estate","Financial Services","Information Technology","Public Administration (Civilian Government)","Public Administration (Civilian Government)","Public Administration (Civilian Government)","Construction","Information Technology","Education","Healthcare","Other Services","Information Technology","Manufacturing","Manufacturing","Financial Services","Information Technology","Financial Services","Healthcare","Healthcare","Manufacturing","Information Technology","Information Technology","Other Services","Professional & Business Services","Information Technology","Professional & Business Services","Other Services","Information Technology","Professional & Business Services","Financial Services","Trade, transportation, utilities","Information Technology","Manufacturing","Financial Services","Manufacturing","Public Administration (Civilian Government)","Other Services","Professional & Business Services","Information Technology","Manufacturing","Public Administration (Civilian Government)","Healthcare","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Professional & Business Services","Healthcare","Manufacturing","Professional & Business Services","Information Technology","Information Technology","Public Administration (Civilian Government)","Manufacturing","Public Administration (Civilian Government)","Professional & Business Services","Utilities","Healthcare","Financial Services","Information Technology","Information Technology","Information Technology","Financial Services","Natural Resources","Financial Services","Military","Information Technology","Professional & Business Services","Information Technology","Information Technology","Military","Manufacturing","Manufacturing","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Military","Information Technology","Education","Financial Services","Other Services","Public Administration (Civilian Government)","Professional & Business Services","Arts, Entertainment, Recreation","Information Technology","Information Technology","Information Technology","Military","Healthcare","Missing","Information Technology","Information Technology","Professional & Business Services","Healthcare","Information Technology","Information Technology","Professional & Business Services","Natural Resources","Professional & Business Services","Utilities","Manufacturing","Financial Services","Military","Information Technology","Professional & Business Services","Information Technology","Professional & Business Services","Information Technology","Information Technology","Manufacturing","Military","Information Technology","Professional & Business Services","Manufacturing","Information Technology","Healthcare","Manufacturing","Military","Public Administration (Civilian Government)","Healthcare","Information Technology","Information Technology","Professional & Business Services","Agriculture, Forestry, Fishing","Information Technology","Healthcare","Media","Information Technology","Military","Information Technology","Financial Services","Utilities","Other Services","Military","Healthcare","Other Services","Transportation","Financial Services","Arts, Entertainment, Recreation","Information Technology","Arts, Entertainment, Recreation","Public Administration (Civilian Government)","Information Technology","Professional & Business Services","Manufacturing","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Manufacturing","Information Technology","Information Technology","Construction","Other Services","Financial Services","Healthcare","Financial Services","Healthcare","Information Technology","Information Technology","Public Administration (Civilian Government)","Financial Services","Financial Services","Information Technology","Information Technology","Financial Services","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Professional & Business Services","Professional & Business Services","Military","Professional & Business Services","Information Technology","Professional & Business Services","Arts, Entertainment, Recreation","Financial Services","Professional & Business Services","Public Administration (Civilian Government)","Missing","Information Technology","Agriculture, Forestry, Fishing","Information Technology","Information Technology","Information Technology","Healthcare","Professional & Business Services","Manufacturing","Healthcare","Financial Services","Financial Services","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Trade, transportation, utilities","Information Technology","Financial Services","Professional & Business Services","Information Technology","Other Services","Professional & Business Services","Healthcare","Education","Information Technology","Manufacturing","Education","Information Technology","Manufacturing","Information Technology","Military","Information Technology","Healthcare","Financial Services","Information Technology","Utilities","Financial Services","Professional & Business Services","Financial Services","Financial Services","Professional & Business Services","Healthcare","Professional & Business Services","Information Technology","Information Technology","Healthcare","Construction","Arts, Entertainment, Recreation","Financial Services","Financial Services","Construction","Manufacturing","Information Technology","Professional & Business Services","Information Technology","Utilities","Professional & Business Services","Information Technology","Professional & Business Services","Information Technology","Professional & Business Services","Information Technology","Information Technology","Information Technology","Professional & Business Services","Healthcare","Financial Services","Financial Services","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Public Administration (Civilian Government)","Manufacturing","Manufacturing","Construction","Information Technology","Natural Resources","Arts, Entertainment, Recreation","Information Technology","Financial Services","Financial Services","Public Administration (Civilian Government)","Information Technology","Media","Information Technology","Utilities","Information Technology","Information Technology","Professional & Business Services","Financial Services","Manufacturing","Information Technology","Healthcare","Information Technology","Professional & Business Services","Manufacturing","Healthcare","Military","Professional & Business Services","Information Technology","Information Technology","Healthcare","Manufacturing","Natural Resources","Information Technology","Transportation","Public Administration (Civilian Government)","Professional & Business Services","Professional & Business Services","Manufacturing","Information Technology","Professional & Business Services","Education","Transportation","Manufacturing","Information Technology","Information Technology","Healthcare","Information Technology","Information Technology","Information Technology","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Professional & Business Services","Military","Healthcare","Information Technology","Information Technology","Financial Services","Manufacturing","Information Technology","Other Services","Manufacturing","Manufacturing","Information Technology","Financial Services","Information Technology","Professional & Business Services","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Transportation","Construction","Trade, transportation, utilities","Information Technology","Information Technology","Military","Information Technology","Agriculture, Forestry, Fishing","Professional & Business Services","Public Administration (Civilian Government)","Arts, Entertainment, Recreation","Education","Public Administration (Civilian Government)","Manufacturing","Information Technology","Information Technology","Other Services","Public Administration (Civilian Government)","Professional & Business Services","Transportation","Real Estate","Information Technology","Professional & Business Services","Information Technology","Professional & Business Services","Missing","Information Technology","Healthcare","Information Technology","Information Technology","Information Technology","Manufacturing","Information Technology","Information Technology","Manufacturing","Military","Information Technology","Information Technology","Information Technology","Public Administration (Civilian Government)","Professional & Business Services","Manufacturing","Financial Services","Manufacturing","Information Technology","Information Technology","Information Technology","Professional & Business Services","Media","Information Technology","Information Technology","Information Technology","Information Technology","Healthcare","Education","Agriculture, Forestry, Fishing","Professional & Business Services","Transportation","Information Technology","Financial Services","Information Technology","Information Technology","Information Technology","Financial Services","Financial Services","Information Technology","Information Technology","Information Technology","Professional & Business Services","Public Administration (Civilian Government)","Information Technology","Financial Services","Military","Information Technology","Financial Services","Information Technology","Utilities","Manufacturing","Construction","Construction","Other Services","Information Technology","Information Technology","Information Technology","Manufacturing","Transportation","Manufacturing","Healthcare","Public Administration (Civilian Government)","Healthcare","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Healthcare","Information Technology","Information Technology","Other Services","Manufacturing","Information Technology","Information Technology","Other Services","Financial Services","Information Technology","Information Technology","Information Technology","Healthcare","Military","Information Technology","Healthcare","Information Technology","Financial Services","Construction","Media","Information Technology","Information Technology","Manufacturing","Information Technology","Healthcare","Manufacturing","Information Technology","Transportation","Natural Resources","Financial Services","Financial Services","Manufacturing","Transportation","Professional & Business Services","Information Technology","Information Technology","Manufacturing","Information Technology","Utilities","Information Technology","Information Technology","Manufacturing","Manufacturing","Professional & Business Services","Information Technology","Manufacturing","Information Technology","Information Technology","Information Technology","Other Services","Information Technology","Professional & Business Services","Other Services","Leisure & Hospitality","Leisure & Hospitality","Manufacturing","Information Technology","Financial Services","Financial Services","Construction","Public Administration (Civilian Government)","Manufacturing","Information Technology","Trade, transportation, utilities","Healthcare","Arts, Entertainment, Recreation","Financial Services","Financial Services","Information Technology","Construction","Financial Services","Professional & Business Services","Natural Resources","Manufacturing","Professional & Business Services","Financial Services","Information Technology","Professional & Business Services","Financial Services","Healthcare","Information Technology","Information Technology","Healthcare","Professional & Business Services","Information Technology","Healthcare","Media","Manufacturing","Professional & Business Services","Other Services","Trade, transportation, utilities","Manufacturing","Healthcare","Manufacturing","Information Technology","Information Technology","Professional & Business Services","Financial Services","Education","Professional & Business Services","Public Administration (Civilian Government)","Information Technology","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Financial Services","Agriculture, Forestry, Fishing","Information Technology","Professional & Business Services","Information Technology","Healthcare","Information Technology","Information Technology","Real Estate","Information Technology","Information Technology","Natural Resources","Professional & Business Services","Manufacturing","Manufacturing","Information Technology","Manufacturing","Information Technology","Information Technology","Arts, Entertainment, Recreation","Education","Education","Other Services","Information Technology","Utilities","Financial Services","Natural Resources","Information Technology","Manufacturing","Information Technology","Information Technology","Information Technology","Information Technology","Public Administration (Civilian Government)","Information Technology","Professional & Business Services","Information Technology","Financial Services","Public Administration (Civilian Government)","Healthcare","Public Administration (Civilian Government)","Information Technology","Public Administration (Civilian Government)","Information Technology","Education","Healthcare","Manufacturing","Information Technology","Information Technology","Manufacturing","Healthcare","Financial Services","Public Administration (Civilian Government)","Arts, Entertainment, Recreation","Professional & Business Services","Utilities","Information Technology","Information Technology","Information Technology","Military","Military","Manufacturing","Other Services","Public Administration (Civilian Government)","Information Technology","Transportation","Other Services","Information Technology","Manufacturing","Healthcare","Information Technology","Trade, transportation, utilities","Financial Services","Healthcare","Arts, Entertainment, Recreation","Utilities","Information Technology","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Agriculture, Forestry, Fishing","Manufacturing","Information Technology","Trade, transportation, utilities","Professional & Business Services","Financial Services","Financial Services","Healthcare","Agriculture, Forestry, Fishing","Construction","Information Technology","Military","Information Technology","Manufacturing","Information Technology","Information Technology","Healthcare","Real Estate","Financial Services","Public Administration (Civilian Government)","Healthcare","Information Technology","Professional & Business Services","Professional & Business Services","Manufacturing","Healthcare","Information Technology","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Public Administration (Civilian Government)","Real Estate","Other Services","Financial Services","Information Technology","Information Technology","Professional & Business Services","Information Technology","Military","Information Technology","Professional & Business Services","Information Technology","Healthcare","Public Administration (Civilian Government)","Information Technology","Missing","Information Technology","Healthcare","Manufacturing","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Information Technology","Financial Services","Professional & Business Services","Information Technology","Information Technology","Manufacturing","Information Technology","Media","Information Technology","Other Services","Information Technology","Leisure & Hospitality","Information Technology","Manufacturing","Healthcare","Professional & Business Services","Healthcare","Healthcare","Military","Information Technology","Information Technology","Manufacturing","Information Technology","Professional & Business Services","Information Technology","Public Administration (Civilian Government)","Healthcare","Information Technology","Information Technology","Natural Resources","Healthcare","Healthcare","Public Administration (Civilian Government)","Professional & Business Services","Information Technology","Financial Services","Manufacturing","Information Technology","Arts, Entertainment, Recreation","Manufacturing","Information Technology","Financial Services","Information Technology","Information Technology","Professional & Business Services","Education","Military","Military","Professional & Business Services","Other Services","Information Technology","Information Technology","Construction","Healthcare","Education","Professional & Business Services","Information Technology","Financial Services","Financial Services","Public Administration (Civilian Government)","Healthcare","Information Technology","Financial Services","Information Technology","Real Estate","Other Services","Healthcare","Manufacturing","Professional & Business Services","Manufacturing","Professional & Business Services","Information Technology","Manufacturing","Other Services","Arts, Entertainment, Recreation","Information Technology","Information Technology","Information Technology","Healthcare","Information Technology","Healthcare","Information Technology","Information Technology","Manufacturing","Professional & Business Services","Information Technology","Healthcare","Information Technology","Information Technology","Information Technology","Financial Services","Financial Services","Information Technology","Trade, transportation, utilities","Financial Services","Information Technology","Arts, Entertainment, Recreation","Trade, transportation, utilities","Leisure & Hospitality","Professional & Business Services","Information Technology","Public Administration (Civilian Government)","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Financial Services","Healthcare","Information Technology","Manufacturing","Financial Services","Professional & Business Services","Information Technology","Manufacturing","Public Administration (Civilian Government)","Utilities","Information Technology","Manufacturing","Information Technology","Construction","Healthcare","Information Technology","Manufacturing","Manufacturing","Public Administration (Civilian Government)","Information Technology","Information Technology","Information Technology","Financial Services","Financial Services","Healthcare","Information Technology","Healthcare","Education","Financial Services","Information Technology","Professional & Business Services","Utilities","Financial Services","Information Technology","Agriculture, Forestry, Fishing","Healthcare","Natural Resources","Professional & Business Services","Other Services","Information Technology","Manufacturing","Healthcare","Financial Services","Information Technology","Transportation","Manufacturing","Information Technology","Information Technology","Information Technology","Manufacturing","Professional & Business Services","Media","Financial Services","Information Technology","Professional & Business Services","Natural Resources","Financial Services","Construction","Other Services","Financial Services","Professional & Business Services","Trade, transportation, utilities","Information Technology","Healthcare","Healthcare","Information Technology","Manufacturing","Education","Information Technology","Trade, transportation, utilities","Financial Services","Construction","Financial Services","Information Technology","Information Technology","Information Technology","Information Technology","Financial Services","Construction","Professional & Business Services","Financial Services","Information Technology","Professional & Business Services","Financial Services","Financial Services","Public Administration (Civilian Government)","Information Technology","Professional & Business Services","Other Services","Financial Services","Information Technology","Information Technology","Information Technology","Missing","Education","Manufacturing","Information Technology","Military","Military","Construction","Information Technology","Healthcare","Missing","Manufacturing","Manufacturing","Arts, Entertainment, Recreation","Education","Information Technology","Information Technology","Transportation","Financial Services","Information Technology","Manufacturing","Financial Services","Information Technology","Manufacturing","Professional & Business Services","Information Technology","Manufacturing","Information Technology","Information Technology","Manufacturing","Public Administration (Civilian Government)","Manufacturing","Healthcare","Information Technology","Information Technology","Leisure & Hospitality","Other Services","Information Technology","Public Administration (Civilian Government)","Manufacturing","Manufacturing","Natural Resources","Information Technology","Professional & Business Services","Information Technology","Education","Trade, transportation, utilities","Information Technology","Information Technology","Military","Information Technology","Public Administration (Civilian Government)","Professional & Business Services","Information Technology","Information Technology","Information Technology","Information Technology","Financial Services","Information Technology","Information Technology","Leisure & Hospitality","Information Technology","Information Technology","Construction","Manufacturing","Information Technology","Information Technology","Professional & Business Services","Information Technology","Military","Information Technology","Healthcare","Manufacturing","Manufacturing","Professional & Business Services","Construction","Construction","Professional & Business Services","Professional & Business Services","Construction","Information Technology","Professional & Business Services","Financial Services","Manufacturing","Construction","Public Administration (Civilian Government)","Professional & Business Services","Healthcare","Manufacturing","Healthcare","Professional & Business Services","Utilities","Information Technology","Transportation","Information Technology","Information Technology","Financial Services","Professional & Business Services","Public Administration (Civilian Government)","Real Estate","Arts, Entertainment, Recreation","Information Technology","Information Technology","Education","Education","Financial Services","Healthcare","Financial Services","Professional & Business Services","Public Administration (Civilian Government)","Information Technology","Information Technology","Healthcare","Public Administration (Civilian Government)","Education","Manufacturing","Financial Services","Public Administration (Civilian Government)","Information Technology","Information Technology","Professional & Business Services","Financial Services","Information Technology","Professional & Business Services","Information Technology","Other Services","Financial Services","Arts, Entertainment, Recreation","Construction","Information Technology","Leisure & Hospitality","Financial Services","Information Technology","Healthcare","Professional & Business Services","Professional & Business Services","Public Administration (Civilian Government)","Military","Healthcare","Financial Services","Information Technology","Information Technology","Manufacturing","Manufacturing","Information Technology","Information Technology","Education","Manufacturing","Information Technology","Healthcare","Information Technology","Information Technology","Manufacturing","Manufacturing","Information Technology","Information Technology","Transportation","Other Services","Public Administration (Civilian Government)","Information Technology","Professional & Business Services","Real Estate","Information Technology","Information Technology","Information Technology","Education","Financial Services","Information Technology","Education","Information Technology","Healthcare","Professional & Business Services","Education","Financial Services","Information Technology","Healthcare","Information Technology","Information Technology","Healthcare","Information Technology","Public Administration (Civilian Government)","Healthcare","Construction","Information Technology","Other Services","Healthcare","Financial Services","Military","Information Technology","Information Technology","Transportation","Transportation","Information Technology","Information Technology","Information Technology","Information Technology","Manufacturing","Information Technology","Healthcare","Healthcare","Other Services","Information Technology","Construction","Healthcare","Manufacturing","Education","Information Technology","Manufacturing","Manufacturing","Education","Financial Services","Leisure & Hospitality","Information Technology","Education","Information Technology","Professional & Business Services","Information Technology","Other Services","Information Technology","Public Administration (Civilian Government)","Information Technology","Education","Education","Professional & Business Services","Manufacturing","Information Technology","Manufacturing","Manufacturing","Professional & Business Services","Healthcare","Public Administration (Civilian Government)","Other Services","Information Technology","Manufacturing","Information Technology","Financial Services","Manufacturing","Construction","Manufacturing","Manufacturing","Professional & Business Services","Information Technology","Manufacturing","Financial Services","Financial Services","Information Technology","Trade, transportation, utilities","Military","Financial Services","Financial Services","Professional & Business Services","Manufacturing","Financial Services","Professional & Business Services","Financial Services","Information Technology","Media","Information Technology","Healthcare","Financial Services","Manufacturing","Transportation","Transportation","Information Technology","Education","Information Technology","Information Technology","Education","Information Technology","Financial Services","Arts, Entertainment, Recreation","Information Technology","Utilities","Information Technology","Information Technology","Financial Services","Healthcare","Public Administration (Civilian Government)","Public Administration (Civilian Government)","Construction","Financial Services","Information Technology","Financial Services","Manufacturing","Construction","Military","Professional & Business Services","Information Technology","Information Technology","Education","Information Technology","Financial Services","Healthcare","Information Technology","Manufacturing","Natural Resources","Professional & Business Services","Transportation","Media","Healthcare","Information Technology","Construction","Healthcare","Information Technology","Professional & Business Services","Education","Construction","Information Technology","Manufacturing","Information Technology","Manufacturing","Manufacturing","Professional & Business Services","Trade, transportation, utilities","Financial Services","Information Technology","Healthcare","Professional & Business Services","Information Technology","Financial Services","Manufacturing","Military","Information Technology","Financial Services","Trade, transportation, utilities","Professional & Business Services","Information Technology","Natural Resources","Arts, Entertainment, Recreation","Financial Services","Military","Information Technology","Financial Services","Information Technology","Information Technology","Healthcare","Professional & Business Services","Information Technology","Professional & Business Services","Financial Services","Information Technology","Transportation","Information Technology","Natural Resources","Arts, Entertainment, Recreation","Public Administration (Civilian Government)","Construction","Media","Military","Professional & Business Services","Public Administration (Civilian Government)","Financial Services","Financial Services","Information Technology","Construction","Information Technology","Professional & Business Services","Transportation","Information Technology","Information Technology","Professional & Business Services","Information Technology","Natural Resources","Information Technology","Healthcare","Military","Leisure & Hospitality","Information Technology","Information Technology","Manufacturing","Information Technology","Information Technology","Financial Services","Information Technology","Professional & Business Services","Information Technology","Real Estate","Information Technology","Public Administration (Civilian Government)","Manufacturing","Professional & Business Services","Construction","Information Technology","Information Technology","Information Technology","Information Technology","Manufacturing","Information Technology","Manufacturing","Information Technology","Professional & Business Services","Professional & Business Services","Information Technology","Information Technology","Financial Services","Information Technology","Trade, transportation, utilities","Information Technology","Financial Services","Healthcare","Construction","Manufacturing","Financial Services","Financial Services","Information Technology","Transportation","Professional & Business Services","Healthcare","Manufacturing","Other Services","Information Technology","Other Services","Professional & Business Services","Other Services","Missing","Information Technology","Transportation","Information Technology","Missing","Public Administration (Civilian Government)","Real Estate","Healthcare","Professional & Business Services","Financial Services","Military","Military","Agriculture, Forestry, Fishing","Financial Services","Healthcare","Education","Professional & Business Services","Military","Professional & Business Services","Professional & Business Services","Financial Services","Natural Resources","Information Technology","Healthcare","Information Technology","Information Technology","Public Administration (Civilian Government)","Education","Public Administration (Civilian Government)","Manufacturing","Utilities","Information Technology","Information Technology","Manufacturing","Trade, transportation, utilities","Manufacturing","Financial Services","Information Technology","Financial Services","Manufacturing","Construction","Information Technology","Arts, Entertainment, Recreation","Education","Information Technology","Information Technology","Information Technology","Education","Education","Information Technology","Construction","Information Technology","Information Technology","Military","Healthcare","Education","Financial Services","Financial Services"],"yaxis":"y","type":"histogram"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"count"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Industry"},"categoryorder":"total ascending"},"legend":{"tracegroupgap":0},"title":{"text":"Distribution of Survey Respondents Across Industries"},"barmode":"relative"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('8b71e57e-cbc4-47c6-897f-7d7c7264bcbf');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1">2.</h2>
+<div id="561846c9" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>                            <div id="e3fb0f72-0761-4a00-b4d0-6a0d87b824d9" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("e3fb0f72-0761-4a00-b4d0-6a0d87b824d9")) {                    Plotly.newPlot(                        "e3fb0f72-0761-4a00-b4d0-6a0d87b824d9",                        [{"branchvalues":"total","domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"hovertemplate":"\u003cb\u003e%{label}\u003c\u002fb\u003e\u003cbr\u003eCount: %{value}\u003cextra\u003e\u003c\u002fextra\u003e","ids":["Agriculture, Forestry, Fishing","Arts, Entertainment, Recreation","Construction","Education","Financial Services","Healthcare","Information Technology","Leisure & Hospitality","Manufacturing","Media","Military","Missing","Natural Resources","Other Services","Professional & Business Services","Public Administration (Civilian Government)","Real Estate","Trade, transportation, utilities","Transportation","Utilities"],"labels":["Agriculture, Forestry, Fishing","Arts, Entertainment, Recreation","Construction","Education","Financial Services","Healthcare","Information Technology","Leisure & Hospitality","Manufacturing","Media","Military","Missing","Natural Resources","Other Services","Professional & Business Services","Public Administration (Civilian Government)","Real Estate","Trade, transportation, utilities","Transportation","Utilities"],"name":"","parents":["","","","","","","","","","","","","","","","","","","",""],"values":[15,26,59,64,227,151,718,12,189,15,50,12,30,55,197,81,14,23,34,26],"type":"treemap"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"legend":{"tracegroupgap":0},"title":{"text":"Distribution of Survey Respondents Across Industries"},"treemapcolorway":["#3da8b2","#2f828a","#286e75"]},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('e3fb0f72-0761-4a00-b4d0-6a0d87b824d9');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
