@@ -1,0 +1,382 @@
+Format this document in the style of my old workshop, shown further down. Remove the solutions
+
+
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+ames = pd.read_csv("/Users/kendavidn/Dropbox/Mac (2)/Downloads/ames.csv")
+ames.columns = ames.columns.str.replace(".", "_")
+```
+
+
+# Part 1: 
+
+Consider the following questions about the Ames housing dataset. For each question, create a simple plot that addresses the question. Your plots do not have to be elegant, you will only be graded on whether you have picked the right types of visualizations to address each question. (No need to customize axes, labels, etc.)
+
+0. What is the relationship between the size of the house and the price? (This will be done for you in class.)
+    - Variables: `Lot_Area`, `price`
+1. Are houses originally built earlier in the 1900s more expensive than those built later in the century?
+    - Variables: `Year_Built`, `price`
+2. What is the most common type of primary exterior material?
+    - Variable: `Exterior_1st`
+3. How does the price vary across different exterior types?
+    - Variables: `Exterior_1st`, `price`
+4. Which neighborhoods have the highest proportions of Single-family Detached homes?
+    - Variables: `Neighborhood`, `Bldg_Type`
+
+# Part 1 Solutions:
+
+```{python}
+# 0. What is the relationship between the size of the house and the price? (This will be done for you in class.)
+px.scatter(ames, x="Lot_Area", y="price")
+
+# Are houses originally built earlier in the 1900s more expensive than those built later in the century?
+px.scatter(ames, x="Year_Built", y="price")  # keep
+
+# What is the most common type of primary exterior material?
+px.histogram(ames, x="Exterior_1st")  # keep
+
+# How does the price vary across different exterior types?
+px.box(ames, x="Exterior_1st", y="price")  # keep
+
+# Which neighborhoods have the highest proportions of Single-family Detached homes?
+px.histogram(
+    ames, x="Neighborhood", color="Bldg_Type", barmode="stack", barnorm="percent"
+)  # keep
+```
+
+# Part 2: Fixing errors
+
+The following code chunk attempts to create a stacked bar chart of the `Central_Air` variable, but it contains several syntax errors. Your task is to correct the errors and improve the readability of the code.
+
+```{python}
+# First we use the replace method to change values according to the mapping
+# We have not taught this yet, but you should be able to read and understand the gist of it
+
+# Define a dictionary to map the values (replace with their full names)
+heating_qc_labels = [
+    "Ex": "Excellent"
+    "Gd": "Good"
+    "TA": "Average/Typical",
+    "Fa": "Fair",
+    "Po": "Poor",
+}
+
+central_air_labels = {
+    "Y": "Central Air Conditioning",
+    "N": "No Central Air Conditioning",
+}
+
+# Apply the mapping to the DataFrame
+ames = ames.assign(
+    Heating_QC_full=lambda df: df.Heating_QC.replace(heating_qc_labels),
+    Central_Air_full=lambda df: df.Central_Air.replace(central_air_LABEL),
+)
+
+# Create the plot with the updated DataFrame
+fig = px.histogram(
+    AMES,
+    y="Central_Air_full",
+    color="Heating_QC_full",
+    barnorm="percent",
+    color_discrete_sequence=["#d9534f", "#e39283", "#e8c590", "#a3c9a8", "#5cb85c"],
+    category_orders={
+        "Heating_QC_full": ["Poor", "Fair", "Average/Typical", "Good", "Excellent"],
+        "Central_Air_full": ["No Central Air Conditioning", "Central Air Conditioning"],
+    },
+    labels={
+        "Central_Air_full": "",
+        "Heating_QC_full": "Heating Quality",
+    },
+    title="Central Air Conditioning by Heating Quality in Ames Housing",
+)
+fig
+```
+
+# Part 2 Solution:
+
+```{python}
+# First we use the replace method to change values according to the mapping
+# We have not taught this yet, but you should be able to read and understand the gist of it
+
+# Define a dictionary to map the values (replace with their full names)
+heating_qc_labels = {
+    "Ex": "Excellent",
+    "Gd": "Good",
+    "TA": "Average/Typical",
+    "Fa": "Fair",
+    "Po": "Poor",
+}
+
+central_air_labels = {
+    "Y": "Central Air Conditioning",
+    "N": "No Central Air Conditioning",
+}
+
+# Apply the mapping to the DataFrame
+ames = ames.assign(
+    Heating_QC_full=lambda df: df.Heating_QC.replace(heating_qc_labels),
+    Central_Air_full=lambda df: df.Central_Air.replace(central_air_labels),
+)
+
+# Create the plot with the updated DataFrame
+fig = px.histogram(
+    ames,
+    y="Central_Air_full",
+    color="Heating_QC_full",
+    barnorm="percent",
+    color_discrete_sequence=["#d9534f", "#e39283", "#e8c590", "#a3c9a8", "#5cb85c"],
+    category_orders={
+        "Heating_QC_full": ["Poor", "Fair", "Average/Typical", "Good", "Excellent"],
+        "Central_Air_full": ["No Central Air Conditioning", "Central Air Conditioning"],
+    },
+    labels={
+        "Central_Air_full": "",
+        "Heating_QC_full": "Heating Quality",
+    },
+    title="Central Air Conditioning by Heating Quality in Ames Housing",
+)
+fig
+```
+
+
+# Part 2b: Garage condition by garage location
+
+Following the example above, create a horizontal percent-stacked bar chart showing the relationship between the type of exterior wall material (`Exterior_1st`) and the condition of the exterior wall (`Exter_Cond`). 
+
+Your y axis should be the `Exterior_1st` variable, and the values should have their full names shown on the plot.
+
+The x axis should be the `Exter_Cond` variable, and the values should also show the full names on the plot.
+
+Feel free to use the same color scheme as in the example above. 
+
+Your plot should have an appropriate title.
+
+# Part 2b Solution:
+
+```{python}
+# Define the mapping for replacing values
+exterior_type_labels = {
+    "AsbShng": "Asbestos Shingles",
+    "AsphShn": "Asphalt Shingles",
+    "BrkComm": "Brick Common",
+    "BrkFace": "Brick Face",
+    "CBlock": "Cinder Block",
+    "CemntBd": "Cement Board",
+    "HdBoard": "Hard Board",
+    "ImStucc": "Imitation Stucco",
+    "MetalSd": "Metal Siding",
+    "Other": "Other",
+    "Plywood": "Plywood",
+    "PreCast": "PreCast",
+    "Stone": "Stone",
+    "Stucco": "Stucco",
+    "VinylSd": "Vinyl Siding",
+    "Wd Sdng": "Wood Siding",
+    "WdShing": "Wood Shingles",
+}
+
+exterior_cond_labels = {
+    "Ex": "Excellent",
+    "Gd": "Good",
+    "TA": "Average/Typical",
+    "Fa": "Fair",
+    "Po": "Poor",
+}
+
+# Apply the mapping to the DataFrame
+ames = ames.assign(
+    Exterior_Type_full=lambda df: df.Exterior_1st.replace(exterior_type_labels),
+    Exterior_Cond_full=lambda df: df.Exter_Cond.replace(exterior_cond_labels),
+)
+
+# Create the plot with the updated DataFrame
+fig = px.histogram(
+    ames,
+    y="Exterior_Type_full",
+    color="Exterior_Cond_full",
+    barnorm="percent",
+    color_discrete_sequence=["#d9534f", "#e39283", "#e8c590", "#a3c9a8", "#5cb85c"],
+    category_orders={
+        "Exterior_Cond_full": ["Poor", "Fair", "Average/Typical", "Good", "Excellent"],
+        "Exterior_Type_full": sorted(ames["Exterior_Type_full"].unique()),
+    },
+    labels={
+        "Exterior_Type_full": "Exterior Type",
+        "Exterior_Cond_full": "Exterior Condition",
+    },
+    title="Exterior Condition by Exterior Type in Ames Housing",
+)
+
+fig.show()
+
+```
+
+# Part 3: Visualization with a For Loop
+
+The plot below shows the distribution of the Roof style (`Roof_Style`) variable faceted by the slope of the property (`Land_Slope`).
+
+```{python}
+px.histogram(ames, x="Roof_Style", color="Land_Slope", facet_col="Land_Slope")
+```
+
+Recreate the same set of plots but using a for loop to iterate over the `Land_Slope` variable. The values for land slope are: 
+
+Gtl:	Gentle slope
+Mod:	Moderate Slope	
+Sev:	Severe Slope
+
+# Part3 Solution
+
+```{python}
+for land_slope in ["Gtl", "Mod", "Sev"]:
+    ames_slope = ames.query(f"Land_Slope == '{land_slope}'")
+    fig = px.histogram(
+        ames_slope,
+        x="Roof_Style",
+        title=f"Roof Style Distribution for {land_slope} Land Slope",
+    )
+    fig.show()
+```
+
+
+# Part 4: Multivariate Plot Individual Assignment
+
+Look through the dataset and decide on three or four variables that could be visualized on a single plot (or on a faceted plot). 
+
+Create a multivariate plot that visualizes these variables and interpret any findings you can deduce from the plot.
+
+
+
+
+
+---
+title: "Workshop: Data Structures and Visualizations with Financial Independence Survey Data"
+---
+
+## Introduction
+
+In this workshop, you'll apply your knowledge of Python data structures, debugging, and data visualization.
+
+In the first section, you'll practice identifying data structures and debugging code.
+
+In the second section, you'll recreate two plots from a survey of Reddit users pursuing financial independence. 
+
+In the third section, you'll each create your own two univariate plots on the same dataset.
+
+In the fourth, optional challenge section, you'll attempt a bivariate or multivariate plot on your own.
+
+The first two sections should be completed together in your group. The last two sections can be completed individually.
+
+## Part 1: Understanding Data Structures and Debugging Code
+
+Consider the following Python script:
+
+```{python}
+import pandas as pd
+
+ages = [28, 34, 29, 45, 23, 38, 31, 40, 27, 50]
+names = ["Ally", "Bob", "Char", "Dav", "Eve", "Fran", "Grace", "Han", "Ivy", "Jo"]
+
+survey_data = {"Age": ages, "Name": names}
+
+survey_df = pd.DataFrame(survey_data)
+survey_df.head()
+```
+
+Identify the data structures used in the script above:
+
+- What type of data structure is `ages`? : ANSWER HERE
+- What data type is each element in `ages`? : ANSWER HERE
+- What type of data structure is `names`? : ANSWER HERE
+- What data type is each element in `names`? : ANSWER HERE
+- What type of data structure is `survey_data`? : ANSWER HERE
+- What type of data structure is `survey_df`? : ANSWER HERE
+
+
+The chunk below attempts to create a histogram of respondent ages in `survey_df` but contains several syntax errors:
+
+```{python}
+#| eval: false
+import plotly.express as px
+fig = px.histogram(survey_df x='Age' title="Age Distribution of Respondents',
+                   labels={'Age': 'Respondent Age' 'count': 'Number of Respondents},
+                   color_discrete_sequence=#3366CC')
+fig.show()
+```
+
+a. Identify and correct the syntax errors in the script so that it runs correctly.
+
+b. Run the corrected code and observe the output.
+
+c. Interpret the histogram. (Describe the distribution of ages in the sample.)
+
+ANSWER HERE
+
+## Part 2: Plot Reproduction
+
+For this section, please visit [this link](https://the-graph-courses.github.io/pbb_q4_2024_materials/week_02_workshop/pbb_week_02_workshop_reddit_finance_plots) to see the plots you will be recreating.
+
+These plots were created using the `reddit_finance` dataset, which you have been sent. 
+
+The `reddit_finance` dataset contains survey responses from Reddit users who are in the r/financialindependence subreddit (online community). 
+They are part of a movement of people who hope to save enough money to become financially independent early in life, so they can focus on other goals.
+You can find out more about the dataset [here](https://vincentarelbundock.github.io/Rdatasets/doc/openintro/reddit_finance.html).
+(As a side note, the in-demand data and tech skills you are learning in this program could be useful for your own financial goals!)
+
+You need to upload the dataset to your Google Drive and then access it in this Colab notebook. 
+
+There are two plots to recreate:
+
+1. A horizontal bar chart of industry distribution
+2. A treemap of industry distribution
+
+We have not taught you how to use the treemap function yet, so you may will need to explore the documentation with `px.treemap?`. One hint: your main function call should include this: `px.treemap(df, path=['industry'])`.
+
+Try your best to match the provided plots in terms of:
+
+- Sorting
+- Labels
+- Colors (approximately)
+- Overall aesthetics
+
+START YOUR ANSWER HERE:
+
+```{python}
+# | eval: false
+```
+
+### Part 3: Individual Exploration
+
+For this section, you will work individually. Your chosen plots should not be the same as those of your group members.
+
+Before you start, to help with understanding the column names, please visit [this link](https://vincentarelbundock.github.io/Rdatasets/doc/openintro/reddit_finance.html).
+
+a. Individually, select **two** other interesting columns from the `reddit_finance` dataset. This should include one categorical variable and one numeric/quantitative variable.
+
+b. For each selected column, create an **elegant univariate plot** to visualize its distribution.
+
+- For **categorical variables**, consider using bar charts, pie charts, or treemaps.
+- For **quantitative variables**, consider using histograms, box plots, or violin plots.
+
+c. Customize your plots with:
+
+- Appropriate titles and axis labels.
+- Customized colors or themes.
+- Any additional annotations or features that enhance the visualization.
+
+d. Write a brief interpretation for each plot, explaining any interesting insights or observations.
+
+START YOUR ANSWERS HERE:
+
+```{python}
+# | eval: false
+```
+
+### Part 4: Optional Challenge (Ungraded)
+
+Although we haven't covered bivariate or multivariate plots yet, you can experiment with creating one informative bivariate or multivariate plot using the plotly express functions.
+
+For example, create a scatter plot, or a stacked bar plot. Feel free to consult the function documentation, Google or ChatGPT.
