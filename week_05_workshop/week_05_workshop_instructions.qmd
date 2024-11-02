@@ -86,6 +86,8 @@ Then, export the subset to a CSV file.
 # Your code here
 ```
 
+Note that for this you do not have to subset any columns, as you did for the previous subsets.
+
 ## Data Subset 4: Extract high-risk loans 
 
 Create a subset of high-risk loans, defined as those meeting ANY of these criteria:
@@ -99,8 +101,6 @@ Call your subset `high_risk`. Then, export the subset to a CSV file.
 ```{python}
 # Your code here
 ```
-
-Note that for this you do not have to subset any columns, as you did for the previous subsets.
 
 ## Data Subset 5: Extract "prime" borrowers
 
