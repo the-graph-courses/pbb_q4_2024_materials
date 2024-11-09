@@ -1,0 +1,30 @@
+---
+title: "Workshop Live Demo/ Revision"
+---
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import ibis
+
+sw = ibis.examples.starwars.fetch().to_pandas()
+```
+
+```{python}
+sw
+## drop the columns starships and vehicles
+
+## keep only the human species
+
+## convert height to meters
+
+## rename the mass variable to mass_kg
+
+## calculate bmi
+
+## classify into underweight (<18.5), normal weight (18.5- <25), overweight (>=25)
+
+## Recode sex from male, female to M, F 
+
+```
