@@ -56,7 +56,7 @@ Load the data into a pandas dataframe:
 jobs = __________________________
 ```
 
-# Task 1: Extract Years of Experience Required
+# Task 1: Extracting Years of Experience Required
 
 ## Part A: Create and Apply LLM Function
 
@@ -105,7 +105,7 @@ Create a visualization comparing years of experience required to the midpoint sa
 
 Describe any relationships you see in the plot.
 
-# Task 2: Extract Programming Language Requirements
+# Task 2: Extracting Programming Language Requirements
 
 In this task, we will ask the LLM to extract the programming languages mentioned in the job descriptions.
 
@@ -116,13 +116,7 @@ Now, create a function that asks the model about the programming languages menti
 Apply your function to the dataset and create a new column `lang_req` in the dataframe to store the results.
 
 ```{python}
-# Your code here
-def lang_req(description):
-    # Craft your prompt here
-    prompt = f"""
-    # Your prompt here
-    """
-    return llm_chat(prompt)
+# Define the function here
 
 # Vectorize the function
 
