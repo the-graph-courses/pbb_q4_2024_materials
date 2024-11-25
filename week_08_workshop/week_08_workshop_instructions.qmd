@@ -50,7 +50,7 @@ Before moving further, let's take a closer look at the `education` variable in o
 tb["education"].value_counts()
 ```
 
-You'll notice that education levels are ordered alphabetically by default! However, in this case, it would be more useful to reorder the education levels so that they are arranged in a chronological order.
+You'll notice that education levels are ordered in descending order by default. However, in this case, we want to reorder the education levels so that they are arranged in a chronological order (lower education levels come first).
 
 First, use the `replace()` method to convert the "Graduate & Above" values to "Graduate".
 
