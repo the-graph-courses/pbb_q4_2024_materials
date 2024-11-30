@@ -137,7 +137,7 @@ This will make it easier to join with our HIV dataset, since country codes are c
 
 Next, complete the following transformations on the `population` dataset:
 
--   Filter to just the `SP.POP.TOTL` indicator
+-   Query the data to just the `SP.POP.TOTL` indicator
 
 -   Melt the data to a long format.
 
@@ -180,7 +180,7 @@ Lastly, calculate the incidence rate and prevalence rate per 100,000 people:
 
 Now, you'll select 3 countries of your choice and plot their incidence rate over time.
 
-- Filter the data to narrow down the countries. Use the syntax `hiv_data_final[hiv_data_final['country'].isin(["COUNTRY1", "COUNTRY2", "COUNTRY3"])]`.
+- Query the data to narrow down the countries. 
 - Convert the `year` column to a `numeric` type with `astype(int)`.
 
 **HINT:** Some countries have many years with missing data, especially for `new_cases`. View and check your `hiv_data_final` dataset to ensure that your chosen countries are not full of NAs.
