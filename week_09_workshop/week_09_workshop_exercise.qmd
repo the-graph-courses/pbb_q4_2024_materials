@@ -191,7 +191,7 @@ Note that some countries have many years with missing data, especially for `new_
 # Your code here
 ```
 
-Now, use `hiv_data_mini` and plot incidence rates over time using Plotly Express.
+Now plot incidence rates over time using Plotly Express.
 
 ```{python}
 # Your code here
@@ -200,7 +200,7 @@ Now, use `hiv_data_mini` and plot incidence rates over time using Plotly Express
 
 # Plot Prevalence Rates
 
-Again, use `hiv_data_mini` and plot their prevalence rates over time, using a line graph.
+Plot their prevalence rates over time, using a line graph.
 
 ```{python}
 # Your code here
