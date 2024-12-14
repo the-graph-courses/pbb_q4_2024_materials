@@ -1,0 +1,79 @@
+---
+title: "Python Basics & Beyond Final Project : Statistics Dashboard with Quarto"
+format: html
+author: "The GRAPH Courses"
+---
+
+## Introduction
+
+Welcome to the final project of the Python Basics & Beyond course! For this project, you will build a multi-page dashboard that explores and visualizes real-world data from Gapminder. This is an opportunity to consolidate your skills in data manipulation, visualization and dashboard creation, while creating a portfolio-worthy project that you can share with future employers.
+
+## Project Requirements
+
+### Data Selection
+
+- Choose at least TWO indicators from [Gapminder's data repository](https://gapminder.org/data). 
+
+- To keep the content manageable, you can subset all data to a single year. (You can also choose to work with multiple years, but this is not required.)
+
+- If you would rather work with alternative datasets, perhaps those more relevant to your work, send an email to us at trainingteam@thegraphnetwork.org with your proposal. As long as your final dashboard meets the rubric requirements below, it could be a good alternative.
+
+### Dashboard Structure
+
+Your dashboard should contain AT LEAST THREE pages, with at least the following pages:
+
+1. First Indicator Analysis
+2. Second Indicator Analysis
+3. Relationship between the two indicators. No statistical analysis is required; this can be purely descriptive/graphical.
+
+### Technical Requirements
+
+- The dashboard should include at least 12 display elements
+- Elements include:
+  - Value boxes
+  - Interactive plots
+  - Tables
+  - Maps
+  - Text boxes with descriptions of key insights
+- You should demonstrate your ability to use a range of pandas methods/functions. (Polars or Ibis are also acceptable.)
+- You should demonstrate your ability to create a range of plotly visualizations. (Matplotlib, plotnine, seaborn, etc. are also acceptable.)
+
+### Submission
+
+You will be asked to upload your quarto file to the submission page AND provide a link to the deployed dashboard.
+
+## Grading Rubric (100 points)
+
+### Data Selection and Manipulation (25 points)
+- At least two indicators selected from Gapminder or approved alternative source
+- Data files are properly cleaned without errors or inconsistencies
+- Datasets are correctly merged when needed
+- Shows evidence of mastery of a range of pandas methods/functions
+
+### Dashboard Structure (15 points)
+- Contains required three pages (first indicator, second indicator, relationship)
+- Layout is logical, easy to navigate, and makes effective use of space
+- Design choices enhance understanding of the content
+
+### Visualization Elements (30 points)
+- Dashboard includes at least 12 display elements (an element is a value box, plot, table, map, etc.)
+- Plots have clear titles, labels, and appropriate scales
+- Interactive features (e.g. hover-over text) function correctly and display clear and useful information
+- Visual elements have titles or text boxes that explain the key insights 
+- Appropriate choice of visualization types for the data
+
+### Code Quality (10 points)
+- Code is well-organized and readable
+- Code runs without errors
+- Efficient use of functions and operations
+- Consistent formatting and style
+
+### Deployment and Structure (10 points)
+- Dashboard is successfully deployed to GitHub Pages
+- Files are logically organized in repository
+- Repository contains only necessary files
+
+### Originality, Creativity, and Insight (10 points)
+- Original approaches to dashboard design, visualization, or interaction
+- Demonstrates thoughtful exploration of the data
+- Presents interesting patterns or relationships
