@@ -45,7 +45,7 @@ You will be asked to upload your quarto file to the submission page AND provide 
 ## Grading Rubric (100 points)
 
 ### Data Selection and Manipulation (25 points)
-- At least two indicators selected from Gapminder or approved alternative source
+- Relevant data selected from Gapminder or approved alternative source
 - Data files are properly cleaned without errors or inconsistencies
 - Datasets are correctly merged when needed
 - Shows evidence of mastery of a range of pandas methods/functions
