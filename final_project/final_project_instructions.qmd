@@ -14,7 +14,7 @@ Welcome to the final project of the Python Basics & Beyond course! For this proj
 
 - Choose at least TWO indicators from [Gapminder's data repository](https://gapminder.org/data). 
 
-- To keep the content manageable, you can subset all data to a single year. (You can also choose to work with multiple years, but this is not required.)
+- You can subset to a single year or include multiple years in your analysis.
 
 - If you would rather work with alternative datasets, perhaps those more relevant to your work, send an email to us at trainingteam@thegraphnetwork.org with your proposal. As long as your final dashboard meets the rubric requirements below, it could be a good alternative.
 
