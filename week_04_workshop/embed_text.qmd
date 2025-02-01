@@ -1,0 +1,20 @@
+---
+title: "Embed Text"
+format: 
+    html:
+        embed-resources: true
+---
+
+```{python}
+import plotly.express as px
+
+tips = px.data.tips()
+max_tip = int(tips.tip.max())
+common_day = tips.day.mode()[0]
+```
+
+You can then use these variables in your narrative like this:
+
+The max tip amount was `{python} max_tip`.
+
+The most common day in the tips dataset was `{python} common_day`.
